@@ -26,10 +26,14 @@ class Play extends Phaser.Scene
 
         //add Player
         this.player = new Player(this, game.config.width / 2, 360, "player");
+
+        //Keyboard input
+        jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     update()
     {
+        this.player.update();
         this.background.tilePositionX += 2;
     }
 }
