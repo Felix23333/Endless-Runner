@@ -9,7 +9,8 @@ class Play extends Phaser.Scene
     {
         this.load.image("background", "assets/testbackground.png");
         this.load.image("player", "assets/testplayer.png");
-        this.load.image("plain", "assets/testplain.png");
+        this.load.image("plainDown", "assets/testplain.png");
+        this.load.image("plainUp", "assets/testplain2.png");
     }
 
     create()
@@ -20,8 +21,12 @@ class Play extends Phaser.Scene
         ).setOrigin(0);
         
         //set plain
-        this.plain = this.add.tileSprite(
-            0, 380, 640, 100, "plain"
+        this.plainDown = this.add.tileSprite(
+            0, 380, 640, 100, "plainDown"
+        ).setOrigin(0);
+
+        this.plainUp = this.add.tileSprite(
+            0, 0, 640, 100, "plainUp"
         ).setOrigin(0);
 
         //add Player
@@ -29,6 +34,7 @@ class Play extends Phaser.Scene
 
         //Keyboard input
         jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        gravityKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     }
 
     update()
