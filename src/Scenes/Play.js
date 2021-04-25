@@ -12,6 +12,7 @@ class Play extends Phaser.Scene
         
             //Frame 0: standing player, facing right
             //Frame 1: ducking player. facing right
+        this.load.spritesheet("playerUpsideDown", "assets/testplayerUpsideDown.png", {frameWidth: 16, frameHeight: 48, startFrame: 0, endFrame: 1});
         this.load.image("plain", "assets/testplain.png");
         this.load.image("plainDown", "assets/testplain.png");
         this.load.image("plainUp", "assets/testplain2.png");
@@ -36,6 +37,9 @@ class Play extends Phaser.Scene
         //add Player
         this.player = new Player(this, game.config.width / 2, 360, "player", 0);
         this.playerDuck = new Player(this, game.config.width / 2, 360, "player", 1);
+        this.playerUpsideDown = new Player(this, game.config.width / 2, 115, "playerUpsideDown", 0);
+        this.playerDuckUpsideDown = new Player(this, game.config.width / 2, 115, "playerUpsideDown", 1);
+        this.playerDuckUpsideDown.alpha = 0;
         
         //Keyboard input
         jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -55,20 +59,41 @@ class Play extends Phaser.Scene
     update()
     {
         this.player.update();
-        this.frameLoad(this.player, this.playerDuck);
+        this.playerUpsideDown.update();
+        this.frameLoad(this.player, this.playerDuck, this.playerUpsideDown, this.playerDuckUpsideDown);
         this.background.tilePositionX += 2;
     }
     
-    frameLoad(player, playerDuck)
+    frameLoad(player, playerDuck, playerUpsideDown, playerDuckUpsideDown)
     {
         //change the frame of an object
         if(player.isDuck){
-            player.alpha = 0;
-            playerDuck.alpha = 1;
+            if(player.gravity){
+                player.alpha = 0;
+                playerDuck.alpha = 1;
+                playerUpsideDown.alpha = 0;
+                playerDuckUpsideDown.alpha = 0;
+            }else{
+                player.alpha = 0;
+                playerDuck.alpha = 0;
+                playerUpsideDown.alpha = 0;
+                playerDuckUpsideDown.alpha = 1;
+            }
         }
         if(!player.isDuck){
-            player.alpha = 1;
-            playerDuck.alpha = 0;
+            if(player.gravity){
+                player.alpha = 1;
+                playerDuck.alpha = 0;
+                playerUpsideDown.alpha = 0;
+                playerDuckUpsideDown = 0;
+            }else{
+                if(player.y == 115){
+                    player.alpha = 0;
+                    playerDuck.alpha = 0;
+                    playerUpsideDown.alpha = 1;
+                    playerDuckUpsideDown.alpha = 0;
+                }
+            }
         }
     }
 }
