@@ -16,6 +16,7 @@ class Play extends Phaser.Scene
         this.load.image("plain", "assets/testplain.png");
         this.load.image("plainDown", "assets/testplain.png");
         this.load.image("plainUp", "assets/testplain2.png");
+        this.load.image("woodBox", "assets/woodenBox.png");
     }
 
     create()
@@ -41,6 +42,9 @@ class Play extends Phaser.Scene
         this.playerDuckUpsideDown = new Player(this, game.config.width / 2, 115, "playerUpsideDown", 1);
         this.playerDuckUpsideDown.alpha = 0;
         
+        //add box
+        this.box = new Box(this, game.config.width, 372, "woodBox", 0);
+
         //Keyboard input
         jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         duckKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
@@ -60,6 +64,10 @@ class Play extends Phaser.Scene
     {
         this.player.update();
         this.playerUpsideDown.update();
+        this.box.update();
+        if(this.checkCollision(this.player, this.box)){//resets the position of the box when there is a collision between the player and the box
+            this.box.reset();
+        }
         this.frameLoad(this.player, this.playerDuck, this.playerUpsideDown, this.playerDuckUpsideDown);
         this.background.tilePositionX += 2;
     }
@@ -95,5 +103,17 @@ class Play extends Phaser.Scene
                 }
             }
         }
+    }
+
+    checkCollision(player, box)
+    {
+        if(player.x < box.x + box.width &&
+            player.x + player.width > box.x &&
+            player.y < box.y + box.height &&
+            player.y + player.height > box.y){
+                return true;
+            }else{
+                return false;
+            }
     }
 }
