@@ -4,7 +4,7 @@ class Box extends Phaser.GameObjects.Sprite
     {
         super(scene, x, y, texture, frame);
         this.scene.add.existing(this);
-        this.speed = 2;
+        this.speed = 1.5;
     }
 
     update(){

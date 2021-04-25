@@ -43,7 +43,8 @@ class Play extends Phaser.Scene
         this.playerDuckUpsideDown.alpha = 0;
         
         //add box
-        this.box = new Box(this, game.config.width, 372, "woodBox", 0);
+        this.box1 = new Box(this, game.config.width, 372, "woodBox", 0);
+        this.box2 = new Box(this, game.config.width * 1.5, 372, "woodBox", 0);
 
         //Keyboard input
         jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -64,9 +65,13 @@ class Play extends Phaser.Scene
     {
         this.player.update();
         this.playerUpsideDown.update();
-        this.box.update();
-        if(this.checkCollision(this.player, this.box)){//resets the position of the box when there is a collision between the player and the box
-            this.box.reset();
+        this.box1.update();
+        this.box2.update();
+        if(this.checkCollision(this.player, this.box1)){//resets the position of the box when there is a collision between the player and the box
+            this.box1.reset();
+        }
+        if(this.checkCollision(this.player, this.box2)){//resets the position of the box when there is a collision between the player and the box
+            this.box2.reset();
         }
         this.frameLoad(this.player, this.playerDuck, this.playerUpsideDown, this.playerDuckUpsideDown);
         this.background.tilePositionX += 2;
