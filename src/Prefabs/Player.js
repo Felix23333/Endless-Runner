@@ -7,16 +7,46 @@ class Player extends Phaser.GameObjects.Sprite
         this.jumpHeight = 3;
         this.isJump = false;
         this.isDuck = false;
+        this.isChangingGravity = false;
+        this.gravity = true;
+        this.changeSpeed = 0.1;
     }
 
     Jump()
     {
-        this.y -= this.jumpHeight;
+        if(this.gravity)
+        {
+            this.y -= this.jumpHeight;
+        }
+        else
+        {
+            this.y += this.jumpHeight;
+        }
+        
     }
 
     Fall()
     {
-        this.y += this.jumpHeight;
+        if(this.gravity)
+        {
+            this.y += this.jumpHeight;
+        }
+        else
+        {
+            this.y -= this.jumpHeight;
+        }
+    }
+
+    Gravity()
+    {
+        if(this.gravity)
+        {
+            this.y += this.jumpHeight * 3;
+        }
+        else
+        {
+            this.y -= this.jumpHeight * 3;
+        }
     }
 
     JumpDetect()
@@ -31,14 +61,52 @@ class Player extends Phaser.GameObjects.Sprite
         )
         this.scene.time.delayedCall(600, () => {
             this.isJump = false;
-        }
-        )
+        })
+    }
 
+    ChangeGravity()
+    {
+        if(this.gravity)
+        {
+            //teleport version
+            //while(this.y <= 360)
+            //{
+            //    this.y += this.changeSpeed;
+            //}
+            //this.y = 360;
+
+            //animation version
+            this.scene.time.addEvent({ delay: 10, callback: this.Gravity, 
+                callbackScope: this, repeat: 26 });
+            this.scene.time.delayedCall(270, () => {
+                    this.y = 365;
+                    this.isChangingGravity = false;
+                }
+            )
+        }
+        else
+        {
+            //teleport version
+            //while(this.y >= 120)
+            //{
+            //this.y -= this.changeSpeed;   
+            //}
+            //this.y = 120;
+
+            //animation version
+            this.scene.time.addEvent({ delay: 10, callback: this.Gravity, 
+                callbackScope: this, repeat: 26 });
+            this.scene.time.delayedCall(270, () => {
+                    this.y = 115;
+                    this.isChangingGravity = false;
+                }
+            )
+        }
     }
 
     update()
     {
-        if(Phaser.Input.Keyboard.JustDown(jumpKey) && !this.isJump)
+        if(Phaser.Input.Keyboard.JustDown(jumpKey) && !this.isJump && !this.isChangingGravity)
         {
             this.isJump = true;
             this.JumpDetect();
@@ -48,6 +116,12 @@ class Player extends Phaser.GameObjects.Sprite
             this.isDuck = true;
         }else{
             this.isDuck = false;
+        if(Phaser.Input.Keyboard.JustDown(gravityKey) && !this.isChangingGravity)
+        {
+            this.isChangingGravity = true;
+            this.gravity = !this.gravity;
+            this.ChangeGravity();
+        }
         }
     }
 }
