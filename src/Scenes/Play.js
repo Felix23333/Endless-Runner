@@ -44,7 +44,7 @@ class Play extends Phaser.Scene
         
         //add box
         this.box1 = new Box(this, game.config.width, 372, "woodBox", 0);
-        this.box2 = new Box(this, game.config.width * 1.5, 372, "woodBox", 0);
+        this.box2 = new Box(this, game.config.width * 1.5, 108, "woodBox", 0);
 
         //Keyboard input
         jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
