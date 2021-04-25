@@ -8,7 +8,10 @@ class Play extends Phaser.Scene
     preload()
     {
         this.load.image("background", "assets/testbackground.png");
-        this.load.image("player", "assets/testplayer.png");
+        this.load.spritesheet("player", "assets/testplayer.png", {frameWidth: 16, frameHeight: 48, startFrame: 0, endFrame: 1});//player is now a spritesheet
+        
+            //Frame 0: standing player, facing right
+            //Frame 1: ducking player. facing right
         this.load.image("plain", "assets/testplain.png");
     }
 
@@ -25,15 +28,40 @@ class Play extends Phaser.Scene
         ).setOrigin(0);
 
         //add Player
-        this.player = new Player(this, game.config.width / 2, 360, "player");
-
+        this.player = new Player(this, game.config.width / 2, 360, "player", 0);
+        this.playerDuck = new Player(this, game.config.width / 2, 360, "player", 1);
+        
         //Keyboard input
         jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        duckKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+
+        //animation config
+        this.anims.create({
+            key: 'duckAnim',
+            frames: this.anims.generateFrameNumbers('player', {start: 0, end: 1, first: 1}),
+            frameRate: 1
+        });
+        //
+        this.firstJump = true;
     }
 
     update()
     {
         this.player.update();
+        this.frameLoad(this.player, this.playerDuck);
         this.background.tilePositionX += 2;
+    }
+    
+    frameLoad(player, playerDuck)
+    {
+        //change the frame of an object
+        if(player.isDuck){
+            player.alpha = 0;
+            playerDuck.alpha = 1;
+        }
+        if(!player.isDuck){
+            player.alpha = 1;
+            playerDuck.alpha = 0;
+        }
     }
 }

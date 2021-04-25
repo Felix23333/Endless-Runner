@@ -6,6 +6,7 @@ class Player extends Phaser.GameObjects.Sprite
         this.scene.add.existing(this);
         this.jumpHeight = 3;
         this.isJump = false;
+        this.isDuck = false;
     }
 
     Jump()
@@ -31,7 +32,7 @@ class Player extends Phaser.GameObjects.Sprite
         this.scene.time.delayedCall(600, () => {
             this.isJump = false;
         }
-    )
+        )
 
     }
 
@@ -41,6 +42,12 @@ class Player extends Phaser.GameObjects.Sprite
         {
             this.isJump = true;
             this.JumpDetect();
+        }
+        if(duckKey.isDown)
+        {
+            this.isDuck = true;
+        }else{
+            this.isDuck = false;
         }
     }
 }

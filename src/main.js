@@ -8,3 +8,4 @@ let config = {
 let game = new Phaser.Game(config);
 
 let jumpKey;
+let duckKey;
