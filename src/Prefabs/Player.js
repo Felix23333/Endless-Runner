@@ -106,7 +106,7 @@ class Player extends Phaser.GameObjects.Sprite
 
     update()
     {
-        if(Phaser.Input.Keyboard.JustDown(jumpKey) && !this.isJump && !this.isChangingGravity)
+        if(Phaser.Input.Keyboard.JustDown(jumpKey) && !this.isJump && !this.isChangingGravity && !this.isDuck)
         {
             this.isJump = true;
             this.JumpDetect();
@@ -116,7 +116,7 @@ class Player extends Phaser.GameObjects.Sprite
             this.isDuck = true;
         }else{
             this.isDuck = false;
-        if(Phaser.Input.Keyboard.JustDown(gravityKey) && !this.isChangingGravity)
+        if(Phaser.Input.Keyboard.JustDown(gravityKey) && !this.isChangingGravity && !this.isJump && !this.isDuck)
         {
             this.isChangingGravity = true;
             this.gravity = !this.gravity;
