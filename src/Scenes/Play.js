@@ -17,10 +17,13 @@ class Play extends Phaser.Scene
         this.load.image("plainDown", "assets/testplain.png");
         this.load.image("plainUp", "assets/testplain2.png");
         this.load.image("woodBox", "assets/woodenBox.png");
+        this.load.image("collection", "assets/testcollect.png");
     }
 
     create()
     {
+        score = 0;
+
         //set background
         this.background = this.add.tileSprite(
             0, 0, 640, 480, "background"
@@ -42,13 +45,17 @@ class Play extends Phaser.Scene
         this.box1 = new Box(this, game.config.width, 372, "woodBox", 0);
         this.box2 = new Box(this, game.config.width * 1.5, 108, "woodBox", 0);
 
+        //add collection
+        this.collection1 = new Collection(this, game.config.width, 300, "collection", 0);
+        this.collection2 = new Collection(this, game.config.width, 180, "collection", 0);
+
         //Keyboard input
         jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         duckKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         gravityKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
-        //
-        this.firstJump = true;
+        //track score
+        this.score = this.add.text(540, 50, score);
         
     }
     
@@ -87,9 +94,22 @@ class Play extends Phaser.Scene
 
     update()
     {
+        this.score.text = score;
         this.player.update();
         this.box1.update();
         this.box2.update();
+        this.collection1.update();
+        this.collection2.update();
+        if(this.checkCollision(this.player, this.collection1))
+        {
+            this.collection1.reset();
+            score += 1;
+        }
+        if(this.checkCollision(this.player, this.collection2))
+        {
+            this.collection2.reset();
+            score += 1;
+        }
         if(this.checkCollision(this.player, this.box1)){//resets the position of the box when there is a collision between the player and the box
             this.box1.reset();
         }
