@@ -10,3 +10,4 @@ let game = new Phaser.Game(config);
 let jumpKey, gravityKey, duckKey;
 
 let score = 0;
+let gameSpeed = 1;

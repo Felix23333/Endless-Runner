@@ -22,8 +22,27 @@ class Play extends Phaser.Scene
 
     create()
     {
-        score = 0;
+        let scoreConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#DEFACE',
+            color: '#000000',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100
+        }
 
+        let scoreConfig2 = {
+            fontFamily: 'Courier',
+            fontSize: '20px',
+            color: '#FFFFFF',
+        }
+
+        score = 0;
+        gameSpeed = 1;
         //set background
         this.background = this.add.tileSprite(
             0, 0, 640, 480, "background"
@@ -55,7 +74,12 @@ class Play extends Phaser.Scene
         gravityKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         //track score
-        this.score = this.add.text(540, 50, score);
+        this.scoretext = this.add.text(420, 33, "Score: ", scoreConfig2);
+        this.score = this.add.text(500, 25, score, scoreConfig);
+
+        //change gamespeed overtime
+        this.time.addEvent({ delay: 5000, callback: this.addDiff, 
+            callbackScope: this, loop: true });
         
     }
     
@@ -90,6 +114,11 @@ class Play extends Phaser.Scene
             }else{
                 return false;
             }
+    }
+
+    addDiff()
+    {
+        gameSpeed += 0.1;
     }
 
     update()

@@ -8,13 +8,13 @@ class Box extends Phaser.GameObjects.Sprite
     }
 
     update(){
-        this.x -= this.speed;
+        this.x -= this.speed * gameSpeed;
         if(this.x + this.width <= 0){
             this.reset();
         }
     }
 
     reset(){
-        this.x = game.config.width;
+        this.x = game.config.width + Phaser.Math.Between(0, 1000);
     }
 }
