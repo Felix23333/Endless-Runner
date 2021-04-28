@@ -18,6 +18,7 @@ class Play extends Phaser.Scene
         this.load.image("plainUp", "assets/testplain2.png");
         this.load.image("woodBox", "assets/woodenBox.png");
         this.load.image("collection", "assets/testcollect.png");
+        this.load.spritesheet("lives", "assets/testlive.png", {frameWidth: 144, frameHeight: 48, startFrame: 0, endFrame: 2});
     }
 
     create()
@@ -41,8 +42,11 @@ class Play extends Phaser.Scene
             color: '#FFFFFF',
         }
 
+        //init some values
         score = 0;
         gameSpeed = 1;
+        lives = 3;
+        gameOver = false;
         //set background
         this.background = this.add.tileSprite(
             0, 0, 640, 480, "background"
@@ -56,6 +60,9 @@ class Play extends Phaser.Scene
         this.plainUp = this.add.tileSprite(
             0, 0, 640, 100, "plainUp"
         ).setOrigin(0);
+
+        //set lives
+        this.lives = new Lives(this, 100, 40, "lives", 0);
 
         //add Player
         this.player = new Player(this, game.config.width / 2, 360, "player", 0);
@@ -123,29 +130,36 @@ class Play extends Phaser.Scene
 
     update()
     {
-        this.score.text = score;
-        this.player.update();
-        this.box1.update();
-        this.box2.update();
-        this.collection1.update();
-        this.collection2.update();
-        if(this.checkCollision(this.player, this.collection1))
+        if(!gameOver)
         {
-            this.collection1.reset();
-            score += 1;
+            this.lives.updateLives();
+            this.score.text = score;
+            this.player.update();
+            this.box1.update();
+            this.box2.update();
+            this.collection1.update();
+            this.collection2.update();
+            if(this.checkCollision(this.player, this.collection1))
+            {
+                this.collection1.reset();
+                score += 1;
+            }
+            if(this.checkCollision(this.player, this.collection2))
+            {
+                this.collection2.reset();
+                score += 1;
+            }
+            if(this.checkCollision(this.player, this.box1)){//resets the position of the box when there is a collision between the player and the box
+                lives--;
+                this.box1.reset();
+            }
+            if(this.checkCollision(this.player, this.box2)){//resets the position of the box when there is a collision between the player and the box
+                lives--;
+                this.box2.reset();
+            }
+            this.frameLoad(this.player, this.playerDuck, this.playerUpsideDown, this.playerDuckUpsideDown);
+            this.background.tilePositionX += 2;
         }
-        if(this.checkCollision(this.player, this.collection2))
-        {
-            this.collection2.reset();
-            score += 1;
-        }
-        if(this.checkCollision(this.player, this.box1)){//resets the position of the box when there is a collision between the player and the box
-            this.box1.reset();
-        }
-        if(this.checkCollision(this.player, this.box2)){//resets the position of the box when there is a collision between the player and the box
-            this.box2.reset();
-        }
-        this.frameLoad(this.player, this.playerDuck, this.playerUpsideDown, this.playerDuckUpsideDown);
-        this.background.tilePositionX += 2;
+        
     }
 }

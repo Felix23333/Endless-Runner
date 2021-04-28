@@ -11,3 +11,5 @@ let jumpKey, gravityKey, duckKey;
 
 let score = 0;
 let gameSpeed = 1;
+let lives = 3;
+let gameOver = false;
