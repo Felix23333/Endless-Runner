@@ -160,6 +160,10 @@ class Play extends Phaser.Scene
             this.frameLoad(this.player, this.playerDuck, this.playerUpsideDown, this.playerDuckUpsideDown);
             this.background.tilePositionX += 2;
         }
+        else
+        {
+            this.scene.start("endScene");
+        }
         
     }
 }

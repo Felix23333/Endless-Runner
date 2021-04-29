@@ -17,6 +17,5 @@ class Collection extends Phaser.GameObjects.Sprite
 
     reset(){
         this.x = game.config.width + Phaser.Math.Between(0,500);
-        console.log(this.x);
     }
 }
