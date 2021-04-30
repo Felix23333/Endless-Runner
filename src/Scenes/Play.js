@@ -14,8 +14,8 @@ class Play extends Phaser.Scene
             //Frame 2: standing player with inverse gravity
             //Frame 3: ducking player with inverse gravity
         this.load.image("plain", "assets/testplain.png");
-        this.load.image("plainDown", "assets/testplain.png");
-        this.load.image("plainUp", "assets/testplain2.png");
+        //this.load.image("plainDown", "assets/testplain.png");
+        //this.load.image("plainUp", "assets/testplain2.png");
         this.load.image("woodBox", "assets/woodenBox.png");
         this.load.image("collection", "assets/testcollect.png");
         this.load.spritesheet("lives", "assets/testlive.png", {frameWidth: 144, frameHeight: 48, startFrame: 0, endFrame: 2});
@@ -53,27 +53,27 @@ class Play extends Phaser.Scene
         ).setOrigin(0);
         
         //set plain
-        this.plainDown = this.add.tileSprite(
-            0, 380, 640, 100, "plainDown"
-        ).setOrigin(0);
+        // this.plainDown = this.add.tileSprite(
+        //     0, 380, 640, 100, "plainDown"
+        // ).setOrigin(0);
 
-        this.plainUp = this.add.tileSprite(
-            0, 0, 640, 100, "plainUp"
-        ).setOrigin(0);
+        // this.plainUp = this.add.tileSprite(
+        //     0, 0, 640, 100, "plainUp"
+        // ).setOrigin(0);
 
         //set lives
-        this.lives = new Lives(this, 100, 40, "lives", 0);
+        this.lives = new Lives(this, 100, 20, "lives", 0);
 
         //add Player
-        this.player = new Player(this, game.config.width / 2, 360, "player", 0);
+        this.player = new Player(this, game.config.width / 2, 385, "player", 0);
         
         //add box
-        this.box1 = new Box(this, game.config.width, 372, "woodBox", 0);
-        this.box2 = new Box(this, game.config.width * 1.5, 108, "woodBox", 0);
+        this.box1 = new Box(this, game.config.width, 395, "woodBox", 0);
+        this.box2 = new Box(this, game.config.width * 1.5, 77, "woodBox", 0);
 
         //add collection
-        this.collection1 = new Collection(this, game.config.width, 300, "collection", 0);
-        this.collection2 = new Collection(this, game.config.width, 180, "collection", 0);
+        this.collection1 = new Collection(this, game.config.width, 315, "collection", 0);
+        this.collection2 = new Collection(this, game.config.width, 165, "collection", 0);
 
         //Keyboard input
         jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -81,8 +81,8 @@ class Play extends Phaser.Scene
         gravityKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         //track score
-        this.scoretext = this.add.text(420, 33, "Score: ", scoreConfig2);
-        this.score = this.add.text(500, 25, score, scoreConfig);
+        this.scoretext = this.add.text(420, 13, "Score: ", scoreConfig2);
+        this.score = this.add.text(500, 5, score, scoreConfig);
 
         //change gamespeed overtime
         this.time.addEvent({ delay: 5000, callback: this.addDiff, 
