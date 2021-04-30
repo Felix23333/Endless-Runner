@@ -78,15 +78,9 @@ class Player extends Phaser.GameObjects.Sprite
 
             //animation version
             this.scene.time.addEvent({ delay: 10, callback: this.Gravity, 
-<<<<<<< HEAD
-                callbackScope: this, repeat: 26 });
-            this.scene.time.delayedCall(270, () => {
-                    this.y = 336;
-=======
                 callbackScope: this, repeat: 32 });
             this.scene.time.delayedCall(330, () => {
-                    this.y = 385;
->>>>>>> c16a0b1cfce36a58a3f553d6db2bff0be50afe46
+                    this.y = 336;
                     this.isChangingGravity = false;
                 }
             )
@@ -102,15 +96,9 @@ class Player extends Phaser.GameObjects.Sprite
 
             //animation version
             this.scene.time.addEvent({ delay: 10, callback: this.Gravity, 
-<<<<<<< HEAD
-                callbackScope: this, repeat: 26 });
-            this.scene.time.delayedCall(270, () => {
-                    this.y = 97;
-=======
                 callbackScope: this, repeat: 32 });
             this.scene.time.delayedCall(330, () => {
-                    this.y = 90;
->>>>>>> c16a0b1cfce36a58a3f553d6db2bff0be50afe46
+                    this.y = 97;
                     this.isChangingGravity = false;
                 }
             )

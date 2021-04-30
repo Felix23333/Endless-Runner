@@ -13,16 +13,7 @@ class Play extends Phaser.Scene
             //Frame 4 - 6: ducking animation
             //Frame 7 - 10: upside down standing player, walking animation, facing right
             //Frame 11 - 13: upside down ducking animation
-        this.load.image("plain", "assets/testplain.png");
-<<<<<<< HEAD
-        this.load.image("plainDown", "assets/testplain.png");
-        this.load.image("plainUp", "assets/testplain2.png");
         this.load.spritesheet("box", "assets/box.png", {frameWidth: 24, frameHeight: 48, startFrame: 0, endFrame: 2});
-=======
-        //this.load.image("plainDown", "assets/testplain.png");
-        //this.load.image("plainUp", "assets/testplain2.png");
-        this.load.image("woodBox", "assets/woodenBox.png");
->>>>>>> c16a0b1cfce36a58a3f553d6db2bff0be50afe46
         this.load.image("collection", "assets/testcollect.png");
         this.load.spritesheet("lives", "assets/testlive.png", {frameWidth: 16, frameHeight: 48, startFrame: 0, endFrame: 2});
     }
@@ -68,7 +59,6 @@ class Play extends Phaser.Scene
         // ).setOrigin(0);
 
         //set lives
-<<<<<<< HEAD
         this.lives = new Lives(this, 100, 40, "lives", 0).setOrigin(0);
 
         
@@ -80,20 +70,6 @@ class Play extends Phaser.Scene
         //add collection
         this.collection1 = new Collection(this, game.config.width, 300, "collection", 0).setOrigin(0);
         this.collection2 = new Collection(this, game.config.width, 180, "collection", 0).setOrigin(0);
-=======
-        this.lives = new Lives(this, 100, 20, "lives", 0);
-
-        //add Player
-        this.player = new Player(this, game.config.width / 2, 385, "player", 0);
-        
-        //add box
-        this.box1 = new Box(this, game.config.width, 395, "woodBox", 0);
-        this.box2 = new Box(this, game.config.width * 1.5, 77, "woodBox", 0);
-
-        //add collection
-        this.collection1 = new Collection(this, game.config.width, 315, "collection", 0);
-        this.collection2 = new Collection(this, game.config.width, 165, "collection", 0);
->>>>>>> c16a0b1cfce36a58a3f553d6db2bff0be50afe46
 
         //Keyboard input
         jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -101,13 +77,8 @@ class Play extends Phaser.Scene
         gravityKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         //track score
-<<<<<<< HEAD
         this.scoretext = this.add.text(420, 33, "Score: ", scoreConfig2).setOrigin(0);
         this.score = this.add.text(500, 25, score, scoreConfig).setOrigin(0);
-=======
-        this.scoretext = this.add.text(420, 13, "Score: ", scoreConfig2);
-        this.score = this.add.text(500, 5, score, scoreConfig);
->>>>>>> c16a0b1cfce36a58a3f553d6db2bff0be50afe46
 
         //change gamespeed overtime
         this.time.addEvent({ delay: 5000, callback: this.addDiff, 
