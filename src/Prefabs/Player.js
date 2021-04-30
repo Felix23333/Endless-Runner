@@ -10,6 +10,7 @@ class Player extends Phaser.GameObjects.Sprite
         this.isChangingGravity = false;
         this.gravity = true;
         this.changeSpeed = 0.1;
+        this.currentFrame = 0;
     }
 
     Jump()
@@ -79,7 +80,7 @@ class Player extends Phaser.GameObjects.Sprite
             this.scene.time.addEvent({ delay: 10, callback: this.Gravity, 
                 callbackScope: this, repeat: 26 });
             this.scene.time.delayedCall(270, () => {
-                    this.y = 365;
+                    this.y = 336;
                     this.isChangingGravity = false;
                 }
             )
@@ -97,7 +98,7 @@ class Player extends Phaser.GameObjects.Sprite
             this.scene.time.addEvent({ delay: 10, callback: this.Gravity, 
                 callbackScope: this, repeat: 26 });
             this.scene.time.delayedCall(270, () => {
-                    this.y = 115;
+                    this.y = 97;
                     this.isChangingGravity = false;
                 }
             )
@@ -123,5 +124,7 @@ class Player extends Phaser.GameObjects.Sprite
             this.ChangeGravity();
         }
         }
+        
+        this.currentFrame = this.frame;
     }
 }

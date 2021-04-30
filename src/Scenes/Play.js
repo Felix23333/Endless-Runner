@@ -8,17 +8,17 @@ class Play extends Phaser.Scene
     preload()
     {
         this.load.image("background", "assets/testbackground.png");
-        this.load.spritesheet("player", "assets/testplayer.png", {frameWidth: 16, frameHeight: 48, startFrame: 0, endFrame: 3});//player is now a spritesheet
-            //Frame 0: standing player, facing right
-            //Frame 1: ducking player. facing right
-            //Frame 2: standing player with inverse gravity
-            //Frame 3: ducking player with inverse gravity
+        this.load.spritesheet("player", "assets/testplayer.png", {frameWidth: 16, frameHeight: 48, startFrame: 0, endFrame: 13});//player is now a spritesheet
+            //Frame 0 - 3: standing player, walking animation, facing right
+            //Frame 4 - 6: ducking animation
+            //Frame 7 - 10: upside down standing player, walking animation, facing right
+            //Frame 11 - 13: upside down ducking animation
         this.load.image("plain", "assets/testplain.png");
         this.load.image("plainDown", "assets/testplain.png");
         this.load.image("plainUp", "assets/testplain2.png");
-        this.load.image("woodBox", "assets/woodenBox.png");
+        this.load.spritesheet("box", "assets/box.png", {frameWidth: 24, frameHeight: 48, startFrame: 0, endFrame: 2});
         this.load.image("collection", "assets/testcollect.png");
-        this.load.spritesheet("lives", "assets/testlive.png", {frameWidth: 144, frameHeight: 48, startFrame: 0, endFrame: 2});
+        this.load.spritesheet("lives", "assets/testlive.png", {frameWidth: 16, frameHeight: 48, startFrame: 0, endFrame: 2});
     }
 
     create()
@@ -62,18 +62,17 @@ class Play extends Phaser.Scene
         ).setOrigin(0);
 
         //set lives
-        this.lives = new Lives(this, 100, 40, "lives", 0);
+        this.lives = new Lives(this, 100, 40, "lives", 0).setOrigin(0);
 
-        //add Player
-        this.player = new Player(this, game.config.width / 2, 360, "player", 0);
+        
         
         //add box
-        this.box1 = new Box(this, game.config.width, 372, "woodBox", 0);
-        this.box2 = new Box(this, game.config.width * 1.5, 108, "woodBox", 0);
+        this.box1 = new Box(this, game.config.width, 336, "box", 0).setOrigin(0);
+        this.box2 = new Box(this, game.config.width * 1.5, 97, "box", 0).setOrigin(0);
 
         //add collection
-        this.collection1 = new Collection(this, game.config.width, 300, "collection", 0);
-        this.collection2 = new Collection(this, game.config.width, 180, "collection", 0);
+        this.collection1 = new Collection(this, game.config.width, 300, "collection", 0).setOrigin(0);
+        this.collection2 = new Collection(this, game.config.width, 180, "collection", 0).setOrigin(0);
 
         //Keyboard input
         jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -81,13 +80,46 @@ class Play extends Phaser.Scene
         gravityKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         //track score
-        this.scoretext = this.add.text(420, 33, "Score: ", scoreConfig2);
-        this.score = this.add.text(500, 25, score, scoreConfig);
+        this.scoretext = this.add.text(420, 33, "Score: ", scoreConfig2).setOrigin(0);
+        this.score = this.add.text(500, 25, score, scoreConfig).setOrigin(0);
 
         //change gamespeed overtime
         this.time.addEvent({ delay: 5000, callback: this.addDiff, 
             callbackScope: this, loop: true });
+
+        //animation configuration
+        this.anims.create({
+            key: 'walk',
+            frames: this.anims.generateFrameNumbers('player', {frames: [0, 1, 2, 3]}),
+            frameRate: 10,
+            repeat: -1
+        });
         
+        this.anims.create({
+            key: 'upsideWalk',
+            frames: this.anims.generateFrameNumbers('player', {frames: [7, 8, 9, 10]}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'duck',
+            frames: this.anims.generateFrameNumbers('player', {frames: [4, 5, 6]}),
+            frameRate: 10
+        });
+
+        this.anims.create({
+            key: 'upsideDuck',
+            frames: this.anims.generateFrameNumbers('player', {frames: [11, 12, 13]}),
+            frameRate: 10
+        });
+        
+        //const keys = ['walk', 'upsideWalk', 'duck', 'upsideDuck'];
+        //add Player
+        this.player = new Player(this, game.config.width / 2, 336, "player", 0).setOrigin(0);
+        //var player = this.add.sprite(game.config.width /2 , 360, 'player');
+        //this.player = this.add.Player(game.config.width / 2, 360, 'player');//new
+        //this.player.play('walk');
     }
     
     frameLoad(player, playerDuck, playerUpsideDown, playerDuckUpsideDown)
@@ -95,17 +127,21 @@ class Play extends Phaser.Scene
         //change the frame of an object
         if(player.isDuck){
             if(player.gravity){
-                player.setFrame(1);
+                //player.play('duck');
+                player.setFrame(5);
             }else{
-                player.setFrame(3);
+                //player.play('upsideDuck');
+                player.setFrame(12);
             }
         }
         if(!player.isDuck){
             if(player.gravity){
+                //player.play('walk');
                 player.setFrame(0);
             }else{
                 if(!player.isChangingGravity){
-                    player.setFrame(2);
+                    //player.play('upsideWalk');
+                    player.setFrame(7);
                 }
             }
         }
@@ -113,14 +149,101 @@ class Play extends Phaser.Scene
 
     checkCollision(player, box)
     {
-        if(player.x < box.x + box.width &&
-            player.x + player.width > box.x &&
-            player.y < box.y + box.height &&
-            player.y + player.height > box.y){
-                return true;
+        if(box.currentFrame == 1){//boxes are stacked
+            if(!player.isDuck){
+                if(player.x < box.x + box.width &&
+                    player.x + player.width > box.x &&
+                    player.y < box.y + box.height &&
+                    player.y + player.height > box.y){
+                        return true;
+                    }else{
+                        return false;
+                    }
             }else{
-                return false;
+                if(player.x < box.x + box.width &&
+                    player.x + player.width > box.x &&
+                    player.y + (player.height / 2) < box.y + box.height &&
+                    player.y + player.height > box.y){
+                        return true;
+                    }else{
+                        return false;
+                    }
             }
+        }else if(box.currentFrame == 0){//only bottom box
+            if(!player.isDuck){
+                if(player.x < box.x + box.width &&
+                    player.x + player.width > box.x &&
+                    player.y < box.y + box.height &&
+                    player.y + player.height > box.y + (box.height / 2)){
+                        return true;
+                    }else{
+                        return false;
+                    }
+            }else{
+                if(player.gravity){
+                    if(player.x < box.x + box.width &&
+                        player.x + player.width > box.x &&
+                        player.y + (player.height / 2) < box.y + box.height &&
+                        player.y + player.height > box.y + (box.height / 2)){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                }else{
+                    if(player.x < box.x + box.width &&
+                        player.x + player.width > box.x &&
+                        player.y + (player.height / 2) < box.y + (box.height/2) &&
+                        player.y > box.y){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                }
+                
+            }
+        }else if(box.currentFrame == 2){//only top box
+            if(!player.isDuck){
+                if(player.x < box.x + box.width &&
+                    player.x + player.width > box.x &&
+                    player.y < box.y + (box.height/2) &&
+                    player.y + player.height > box.y){
+                        return true;
+                    }else{
+                        return false;
+                    }
+            }else{
+                if(player.x < box.x + box.width &&
+                    player.x + player.width > box.x &&
+                    player.y + (player.height / 2) < box.y + (box.height/2) &&
+                    player.y + player.height > box.y){
+                        return true;
+                    }else{
+                        return false;
+                    }
+            }
+        }else{
+            if(!player.isDuck){
+                if(player.x < box.x + box.width &&
+                    player.x + player.width > box.x &&
+                    player.y < box.y + box.height &&
+                    player.y + player.height > box.y){
+                        return true;
+                    }else{
+                        return false;
+                    }
+            }else{
+                if(player.x < box.x + box.width &&
+                    player.x + player.width > box.x &&
+                    player.y + (player.height / 2) < box.y + box.height &&
+                    player.y + player.height > box.y){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                
+            }
+        }
+        
     }
 
     addDiff()
@@ -157,7 +280,7 @@ class Play extends Phaser.Scene
                 lives--;
                 this.box2.reset();
             }
-            this.frameLoad(this.player, this.playerDuck, this.playerUpsideDown, this.playerDuckUpsideDown);
+            this.frameLoad(this.player);
             this.background.tilePositionX += 2;
         }
         else
