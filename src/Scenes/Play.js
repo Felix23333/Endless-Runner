@@ -15,7 +15,7 @@ class Play extends Phaser.Scene
             //Frame 11 - 13: upside down ducking animation
         this.load.spritesheet("box", "assets/box.png", {frameWidth: 24, frameHeight: 48, startFrame: 0, endFrame: 2});
         this.load.image("collection", "assets/testcollect.png");
-        this.load.spritesheet("lives", "assets/testlive.png", {frameWidth: 16, frameHeight: 48, startFrame: 0, endFrame: 2});
+        this.load.spritesheet("lives", "assets/testlive.png", {frameWidth: 144, frameHeight: 48, startFrame: 0, endFrame: 2});
     }
 
     create()
@@ -59,13 +59,13 @@ class Play extends Phaser.Scene
         // ).setOrigin(0);
 
         //set lives
-        this.lives = new Lives(this, 100, 40, "lives", 0).setOrigin(0);
+        this.lives = new Lives(this, 100, 15, "lives", 0).setOrigin(0);
 
         
         
         //add box
-        this.box1 = new Box(this, game.config.width, 336, "box", 0).setOrigin(0);
-        this.box2 = new Box(this, game.config.width * 1.5, 97, "box", 0).setOrigin(0);
+        this.box1 = new Box(this, game.config.width, 365, "box", 0).setOrigin(0);
+        this.box2 = new Box(this, game.config.width * 1.5, 73, "box", 0).setOrigin(0);
 
         //add collection
         this.collection1 = new Collection(this, game.config.width, 300, "collection", 0).setOrigin(0);
@@ -113,7 +113,7 @@ class Play extends Phaser.Scene
         
         //const keys = ['walk', 'upsideWalk', 'duck', 'upsideDuck'];
         //add Player
-        this.player = new Player(this, game.config.width / 2, 336, "player", 0).setOrigin(0);
+        this.player = new Player(this, game.config.width / 2, 365, "player", 0).setOrigin(0);
         //var player = this.add.sprite(game.config.width /2 , 360, 'player');
         //this.player = this.add.Player(game.config.width / 2, 360, 'player');//new
         //this.player.play('walk');
