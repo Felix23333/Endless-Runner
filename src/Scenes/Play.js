@@ -66,8 +66,8 @@ class Play extends Phaser.Scene
         this.box2 = new Box(this, game.config.width * 1.5, 73, "box", 0).setOrigin(0);
 
         //add collection
-        this.collection1 = new Collection(this, game.config.width, 300, "collection", 0).setOrigin(0);
-        this.collection2 = new Collection(this, game.config.width, 180, "collection", 0).setOrigin(0);
+        this.collection1 = new Collection(this, game.config.width, 310, "collection", 0).setOrigin(0);
+        this.collection2 = new Collection(this, game.config.width, 150, "collection", 0).setOrigin(0);
 
         //Keyboard input
         jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
