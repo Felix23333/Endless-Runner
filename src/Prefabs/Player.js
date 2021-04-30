@@ -53,9 +53,9 @@ class Player extends Phaser.GameObjects.Sprite
     JumpDetect()
     {
         this.jump = this.scene.time.addEvent({ delay: 10, callback: this.Jump, 
-            callbackScope: this, repeat: 30 });
+            callbackScope: this, repeat: 15 });
         this.fall = this.scene.time.addEvent({ delay: 10, callback: this.Fall, 
-            callbackScope: this, repeat: 30, paused: true });
+            callbackScope: this, repeat: 15, paused: true });
         this.scene.time.delayedCall(300, () => {
                 this.fall.paused = false;
             }

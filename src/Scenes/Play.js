@@ -16,6 +16,7 @@ class Play extends Phaser.Scene
         this.load.spritesheet("box", "assets/box.png", {frameWidth: 24, frameHeight: 48, startFrame: 0, endFrame: 2});
         this.load.image("collection", "assets/testcollect.png");
         this.load.spritesheet("lives", "assets/testlive.png", {frameWidth: 144, frameHeight: 48, startFrame: 0, endFrame: 2});
+        this.load.spritesheet('explosion', 'assets/explosion.png', {frameWidth: 368, frameHeight: 387, startFrame: 0, endFrame: 3});
     }
 
     create()
@@ -48,7 +49,7 @@ class Play extends Phaser.Scene
         this.background = this.add.tileSprite(
             0, 0, 640, 480, "background"
         ).setOrigin(0);
-        
+
         //set plain
         // this.plainDown = this.add.tileSprite(
         //     0, 380, 640, 100, "plainDown"
@@ -57,9 +58,6 @@ class Play extends Phaser.Scene
         // this.plainUp = this.add.tileSprite(
         //     0, 0, 640, 100, "plainUp"
         // ).setOrigin(0);
-
-        //set lives
-        this.lives = new Lives(this, 100, 15, "lives", 0).setOrigin(0);
 
         
         
@@ -86,6 +84,13 @@ class Play extends Phaser.Scene
 
         //animation configuration
         this.anims.create({
+            key: 'ex',
+            frames: this.anims.generateFrameNumbers('explosion', {frames: [0, 1, 2, 3]}),
+            frameRate: 10,
+            repeat: -1
+        })
+
+        this.anims.create({
             key: 'walk',
             frames: this.anims.generateFrameNumbers('player', {frames: [0, 1, 2, 3]}),
             frameRate: 10,
@@ -110,13 +115,22 @@ class Play extends Phaser.Scene
             frames: this.anims.generateFrameNumbers('player', {frames: [11, 12, 13]}),
             frameRate: 10
         });
-        
         //const keys = ['walk', 'upsideWalk', 'duck', 'upsideDuck'];
         //add Player
         this.player = new Player(this, game.config.width / 2, 365, "player", 0).setOrigin(0);
-        //var player = this.add.sprite(game.config.width /2 , 360, 'player');
-        //this.player = this.add.Player(game.config.width / 2, 360, 'player');//new
+        //this.player = this.add.sprite(game.config.width /2 , 360).setOrigin(0);
         //this.player.play('walk');
+
+        //set explosion
+        this.explosion = this.add.sprite(
+            -200, 40/*, game.config.width / 2, game.config.width / 2, 'explosion'*/
+        ).setOrigin(0);
+        this.explosion.setScale(1);
+        this.explosion.play('ex');
+        //set lives
+        this.lives = new Lives(this, 100, 15, "lives", 0).setOrigin(0);
+
+        
     }
     
     frameLoad(player, playerDuck, playerUpsideDown, playerDuckUpsideDown)
@@ -279,6 +293,16 @@ class Play extends Phaser.Scene
             }
             this.frameLoad(this.player);
             this.background.tilePositionX += 2;
+
+            if(lives == 2){
+                this.explosion.x = -100;
+            }else if(lives == 1){
+                this.explosion.x = -20;
+            }
+            if(lives == 0){
+                this.explosion.x = 10;
+            }
+            this.explosion.setScale((Math.random()*0.02) + 1);
         }
         else
         {
