@@ -13,7 +13,7 @@ class Play extends Phaser.Scene
             //Frame 4 - 6: ducking animation
             //Frame 7 - 10: upside down standing player, walking animation, facing right
             //Frame 11 - 13: upside down ducking animation
-        this.load.spritesheet("box", "assets/box.png", {frameWidth: 24, frameHeight: 48, startFrame: 0, endFrame: 2});
+        this.load.spritesheet("box", "assets/box.png", {frameWidth: 24, frameHeight: 72, startFrame: 0, endFrame: 2});
         this.load.image("collection", "assets/testcollect.png");
         this.load.spritesheet("lives", "assets/testlive.png", {frameWidth: 144, frameHeight: 48, startFrame: 0, endFrame: 2});
         this.load.spritesheet('explosion', 'assets/explosion.png', {frameWidth: 368, frameHeight: 387, startFrame: 0, endFrame: 3});
@@ -45,6 +45,7 @@ class Play extends Phaser.Scene
         gameSpeed = 1;
         lives = 3;
         gameOver = false;
+        this.isPlayingDuck = false;
         //set background
         this.background = this.add.tileSprite(
             0, 0, 640, 480, "background"
@@ -107,13 +108,15 @@ class Play extends Phaser.Scene
         this.anims.create({
             key: 'duck',
             frames: this.anims.generateFrameNumbers('player', {frames: [4, 5, 6]}),
-            frameRate: 10
+            frameRate: 10,
+            repeat: 0
         });
 
         this.anims.create({
             key: 'upsideDuck',
             frames: this.anims.generateFrameNumbers('player', {frames: [11, 12, 13]}),
-            frameRate: 10
+            frameRate: 10,
+            repeat: 0
         });
         //const keys = ['walk', 'upsideWalk', 'duck', 'upsideDuck'];
         //add Player
@@ -133,26 +136,29 @@ class Play extends Phaser.Scene
         
     }
     
-    frameLoad(player, playerDuck, playerUpsideDown, playerDuckUpsideDown)
+    frameLoad(player)
     {
         //change the frame of an object
         if(player.isDuck){
             if(player.gravity){
-                //player.play('duck');
+                //player.anims.play('duck', true);
+                //this.isPlayingDuck = true;
                 player.setFrame(5);
             }else{
-                //player.play('upsideDuck');
+                //player.anims.play('upsideDuck',true);
+                //this.isPlayingDuck = true;
                 player.setFrame(12);
             }
         }
         if(!player.isDuck){
+            this.isPlayingDuck = false;
             if(player.gravity){
-                //player.play('walk');
-                player.setFrame(0);
+                //player.setFrame(0);
+                player.anims.play('walk', true);
             }else{
                 if(!player.isChangingGravity){
-                    //player.play('upsideWalk');
-                    player.setFrame(7);
+                    player.anims.play('upsideWalk', true);
+                    //player.setFrame(7);
                 }
             }
         }
@@ -297,7 +303,7 @@ class Play extends Phaser.Scene
             if(lives == 2){
                 this.explosion.x = -100;
             }else if(lives == 1){
-                this.explosion.x = -20;
+                this.explosion.x = -40;
             }
             if(lives == 0){
                 this.explosion.x = 10;
