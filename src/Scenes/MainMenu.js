@@ -7,7 +7,7 @@ class MainMenu extends Phaser.Scene
 
     preload()
     {
-
+        this.load.audio("hurt", "assets/player-hurt.wav");
     }
 
     create()

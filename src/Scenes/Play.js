@@ -61,7 +61,8 @@ class Play extends Phaser.Scene
         // ).setOrigin(0);
 
         
-        
+        //music stuff
+        this.hurtSFX = this.sound.add("hurt");
         //add box
         this.box1 = new Box(this, game.config.width, 365, "box", 0).setOrigin(0);
         this.box2 = new Box(this, game.config.width * 1.5, 65, "box", 0).setOrigin(0);
@@ -274,14 +275,17 @@ class Play extends Phaser.Scene
             }
             if(this.checkCollision(this.player, this.collection2))
             {
+                
                 this.collection2.reset();
                 score += 1;
             }
             if(this.checkCollision(this.player, this.box1)){//resets the position of the box when there is a collision between the player and the box
+                this.hurtSFX.play();
                 lives--;
                 this.box1.reset();
             }
             if(this.checkCollision(this.player, this.box2)){//resets the position of the box when there is a collision between the player and the box
+                this.hurtSFX.play();
                 lives--;
                 this.box2.reset();
             }
