@@ -14,6 +14,8 @@ let gameSpeed = 1;
 let lives = 3;
 let gameOver = false;
 
+let menuMusic;
+let addMenuMusic = false;
 
 //Collaborator Name: Felix Li, Evan Kramer, Miguel Cedillo
 //Game Title: Gravity Run

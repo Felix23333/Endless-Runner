@@ -39,6 +39,7 @@ class Play extends Phaser.Scene
             fontSize: '20px',
             color: '#FFFFFF',
         }
+
         
         //init some values
         score = 0;

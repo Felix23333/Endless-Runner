@@ -9,6 +9,7 @@ class MainMenu extends Phaser.Scene
     {
         this.load.audio("hurt", "assets/player-hurt.wav");
         this.load.audio("background", "assets/backgroundmusic.mp3");
+        this.load.audio("menuMusic", "assets/introMusic.mp3");
     }
 
     create()
@@ -16,10 +17,19 @@ class MainMenu extends Phaser.Scene
         console.log("Open Game!");
         this.input.keyboard.on('keydown-S', this.StartGame, this);
         this.add.rectangle(0, 0, game.config.width, game.config.height, 0x0081FA).setOrigin(0);
+
+        if(!addMenuMusic)
+        {
+            addMenuMusic = true;
+            menuMusic = this.sound.add("menuMusic");
+            menuMusic.loop = true;
+        }
+        menuMusic.play();
     }
 
     StartGame()
     {
         this.scene.start("playScene");
+        menuMusic.stop();
     }
 }
