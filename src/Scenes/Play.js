@@ -64,7 +64,8 @@ class Play extends Phaser.Scene
         
         //add box
         this.box1 = new Box(this, game.config.width, 365, "box", 0).setOrigin(0);
-        this.box2 = new Box(this, game.config.width * 1.5, 73, "box", 0).setOrigin(0);
+        this.box2 = new Box(this, game.config.width * 1.5, 65, "box", 0).setOrigin(0);
+        this.box2.flipY = true;
 
         //add collection
         this.collection1 = new Collection(this, game.config.width, 310, "collection", 0).setOrigin(0);
@@ -197,7 +198,6 @@ class Play extends Phaser.Scene
                         return false;
                     }
             }else{
-                if(player.gravity){
                     if(player.x < box.x + box.width &&
                         player.x + player.width > box.x &&
                         player.y + (player.height / 2) < box.y + box.height &&
@@ -206,17 +206,6 @@ class Play extends Phaser.Scene
                         }else{
                             return false;
                         }
-                }else{
-                    if(player.x < box.x + box.width &&
-                        player.x + player.width > box.x &&
-                        player.y + (player.height / 2) < box.y + (box.height/2) &&
-                        player.y > box.y){
-                            return true;
-                        }else{
-                            return false;
-                        }
-                }
-                
             }
         }else if(box.currentFrame == 2){//only top box
             if(!player.isDuck){
@@ -229,14 +218,14 @@ class Play extends Phaser.Scene
                         return false;
                     }
             }else{
-                if(player.x < box.x + box.width &&
-                    player.x + player.width > box.x &&
-                    player.y + (player.height / 2) < box.y + (box.height/2) &&
-                    player.y + player.height > box.y){
-                        return true;
-                    }else{
-                        return false;
-                    }
+                    if(player.x < box.x + box.width &&
+                        player.x + player.width > box.x &&
+                        player.y + (player.height / 2) < box.y + (box.height/2) &&
+                        player.y + player.height > box.y){
+                            return true;
+                        }else{
+                            return false;
+                        }
             }
         }else{
             if(!player.isDuck){
@@ -257,7 +246,6 @@ class Play extends Phaser.Scene
                     }else{
                         return false;
                     }
-                
             }
         }
         

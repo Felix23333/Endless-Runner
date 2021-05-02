@@ -6,6 +6,7 @@ class Box extends Phaser.GameObjects.Sprite
         this.scene.add.existing(this);
         this.speed = 1.5;
         this.currentFrame = frame;
+        
     }
 
     update(){
@@ -17,6 +18,7 @@ class Box extends Phaser.GameObjects.Sprite
     }
 
     reset(){
+        //console.log(this.currentFrame);
         this.currentFrame = Math.floor(Math.random()*3)
         this.setFrame(this.currentFrame);
         this.x = game.config.width + Phaser.Math.Between(0, 1000);
