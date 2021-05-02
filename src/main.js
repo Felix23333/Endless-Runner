@@ -15,6 +15,7 @@ let lives = 3;
 let gameOver = false;
 
 let menuMusic;
+let backgroundMusic;
 let addMenuMusic = false;
 
 //Collaborator Name: Felix Li, Evan Kramer, Miguel Cedillo

@@ -8,7 +8,7 @@ class MainMenu extends Phaser.Scene
     preload()
     {
         this.load.audio("hurt", "assets/player-hurt.wav");
-        this.load.audio("background", "assets/backgroundmusic.mp3");
+        this.load.audio("backgroundMusic", "assets/backgroundmusic.mp3");
         this.load.audio("menuMusic", "assets/introMusic.mp3");
     }
 
@@ -22,7 +22,9 @@ class MainMenu extends Phaser.Scene
         {
             addMenuMusic = true;
             menuMusic = this.sound.add("menuMusic");
+            backgroundMusic = this.sound.add("backgroundMusic");
             menuMusic.loop = true;
+            backgroundMusic.loop = true;
         }
         menuMusic.play();
     }

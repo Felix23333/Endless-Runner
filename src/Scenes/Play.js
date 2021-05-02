@@ -40,13 +40,17 @@ class Play extends Phaser.Scene
             color: '#FFFFFF',
         }
 
-        
+
         //init some values
         score = 0;
         gameSpeed = 1;
         lives = 3;
         gameOver = false;
         this.isPlayingDuck = false;
+
+        //music
+        backgroundMusic.play();
+
         //set background
         this.background = this.add.tileSprite(
             0, 0, 640, 480, "background"
@@ -306,6 +310,7 @@ class Play extends Phaser.Scene
         else
         {
             this.scene.start("endScene");
+            backgroundMusic.stop();
         }
         
     }
