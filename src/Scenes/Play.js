@@ -87,8 +87,8 @@ class Play extends Phaser.Scene
         gravityKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         //track score
-        this.scoretext = this.add.text(420, 33, "Score: ", scoreConfig2).setOrigin(0);
-        this.score = this.add.text(500, 25, score, scoreConfig).setOrigin(0);
+        this.scoretext = this.add.text(420, 23, "Score: ", scoreConfig2).setOrigin(0);
+        this.score = this.add.text(500, 15, score, scoreConfig).setOrigin(0);
 
         //change gamespeed overtime
         this.time.addEvent({ delay: 5000, callback: this.addDiff, 
@@ -142,7 +142,7 @@ class Play extends Phaser.Scene
         this.explosion.setScale(1);
         this.explosion.play('ex');
         //set lives
-        this.lives = new Lives(this, 100, 15, "lives", 0).setOrigin(0);
+        this.lives = new Lives(this, 100, 5, "lives", 0).setOrigin(0);
 
         
     }

@@ -112,7 +112,7 @@ class Player extends Phaser.GameObjects.Sprite
             this.isJump = true;
             this.JumpDetect();
         }
-        if(duckKey.isDown)
+        if(duckKey.isDown && !this.isJump && !this.isChangingGravity)
         {
             this.isDuck = true;
         }else{
