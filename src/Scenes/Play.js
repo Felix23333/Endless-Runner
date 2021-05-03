@@ -13,7 +13,7 @@ class Play extends Phaser.Scene
             //Frame 4 - 6: ducking animation
             //Frame 7 - 10: upside down standing player, walking animation, facing right
             //Frame 11 - 13: upside down ducking animation
-        this.load.spritesheet("box", "assets/box.png", {frameWidth: 24, frameHeight: 72, startFrame: 0, endFrame: 2});
+        this.load.spritesheet("box", "assets/new-box.png", {frameWidth: 24, frameHeight: 72, startFrame: 0, endFrame: 2});
         this.load.image("collection", "assets/testcollect.png");
         this.load.spritesheet("lives", "assets/testlive.png", {frameWidth: 144, frameHeight: 48, startFrame: 0, endFrame: 2});
         this.load.spritesheet('explosion', 'assets/explosion.png', {frameWidth: 368, frameHeight: 387, startFrame: 0, endFrame: 3});
@@ -21,6 +21,10 @@ class Play extends Phaser.Scene
 
     create()
     {
+        //audio
+        this.sfxCollection = this.sound.add('sfx_collection');
+
+        //
         let scoreConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
@@ -69,8 +73,8 @@ class Play extends Phaser.Scene
         //music stuff
         this.hurtSFX = this.sound.add("hurt");
         //add box
-        this.box1 = new Box(this, game.config.width, 365, "box", 0).setOrigin(0);
-        this.box2 = new Box(this, game.config.width * 1.5, 65, "box", 0).setOrigin(0);
+        this.box1 = new Box(this, game.config.width, 340, "box", 0).setOrigin(0);
+        this.box2 = new Box(this, game.config.width * 1.5, 67, "box", 0).setOrigin(0);
         this.box2.flipY = true;
 
         //add collection
@@ -174,7 +178,6 @@ class Play extends Phaser.Scene
     checkCollision(player, box)
     {
         if(box.currentFrame == 1){//boxes are stacked
-            if(!player.isDuck){
                 if(player.x < box.x + box.width &&
                     player.x + player.width > box.x &&
                     player.y < box.y + box.height &&
@@ -183,55 +186,89 @@ class Play extends Phaser.Scene
                     }else{
                         return false;
                     }
-            }else{
-                if(player.x < box.x + box.width &&
-                    player.x + player.width > box.x &&
-                    player.y + (player.height / 2) < box.y + box.height &&
-                    player.y + player.height > box.y){
-                        return true;
-                    }else{
-                        return false;
-                    }
-            }
         }else if(box.currentFrame == 0){//only bottom box
-            if(!player.isDuck){
-                if(player.x < box.x + box.width &&
-                    player.x + player.width > box.x &&
-                    player.y < box.y + box.height &&
-                    player.y + player.height > box.y + (box.height / 2)){
-                        return true;
-                    }else{
-                        return false;
-                    }
-            }else{
+            if(player.gravity){
+                if(!player.isDuck){
                     if(player.x < box.x + box.width &&
                         player.x + player.width > box.x &&
-                        player.y + (player.height / 2) < box.y + box.height &&
-                        player.y + player.height > box.y + (box.height / 2)){
+                        player.y < box.y + 2*(box.height/3) &&
+                        player.y + player.height > box.y + box.height){
                             return true;
                         }else{
                             return false;
                         }
+                }else{
+                    if(player.x < box.x + box.width &&
+                        player.x + player.width > box.x &&
+                        player.y + player.height > box.y + (2/3)*box.height &&
+                        player.y + (player.height/2) < box.y + box.height){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                }
+            }else{
+                if(!player.isDuck){
+                    if(player.x < box.x + box.width &&
+                        player.x + player.width > box.x &&
+                        player.y < box.y + (1/3)*box.height &&
+                        player.y + player.height > box.y ){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                }else{
+                        if(player.x < box.x + box.width &&
+                            player.x + player.width > box.x &&
+                            player.y + player.height > box.y + (1/3)*box.height &&
+                            player.y + (player.height/2) < box.y + box.height){
+                                return true;
+                            }else{
+                                return false;
+                            }
+                }
             }
         }else if(box.currentFrame == 2){//only top box
-            if(!player.isDuck){
-                if(player.x < box.x + box.width &&
-                    player.x + player.width > box.x &&
-                    player.y < box.y + (box.height/2) &&
-                    player.y + player.height > box.y){
-                        return true;
-                    }else{
-                        return false;
-                    }
-            }else{
+            if(player.gravity){
+                if(!player.isDuck){
                     if(player.x < box.x + box.width &&
                         player.x + player.width > box.x &&
-                        player.y + (player.height / 2) < box.y + (box.height/2) &&
-                        player.y + player.height > box.y){
+                        player.y + player.height > box.y + 2*(box.height/3) &&
+                        player.y < box.y + box.height){
                             return true;
                         }else{
                             return false;
                         }
+                }else{
+                    if(player.x < box.x + box.width &&
+                        player.x + player.width > box.x &&
+                        player.y + player.height > box.y + (2/3)*box.height &&
+                        player.y + (player.height/2) < box.y ){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                }
+            }else{
+                if(!player.isDuck){
+                    if(player.x < box.x + box.width &&
+                        player.x + player.width > box.x &&
+                        player.y + player.height > box.y + (1/3)*box.height &&
+                        player.y < box.y + box.height){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                }else{
+                        if(player.x < box.x + box.width &&
+                            player.x + player.width > box.x &&
+                            player.y > box.y + (1/3)*box.height &&
+                            player.y + player.height < box.y + box.height){
+                                return true;
+                            }else{
+                                return false;
+                            }
+                }
             }
         }else{
             if(!player.isDuck){
@@ -275,12 +312,13 @@ class Play extends Phaser.Scene
             this.collection2.update();
             if(this.checkCollision(this.player, this.collection1))
             {
+                this.sound.play("sfx_collection");
                 this.collection1.reset();
                 score += 1;
             }
             if(this.checkCollision(this.player, this.collection2))
             {
-                
+                this.sound.play("sfx_collection");
                 this.collection2.reset();
                 score += 1;
             }

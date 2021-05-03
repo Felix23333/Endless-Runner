@@ -10,6 +10,7 @@ class MainMenu extends Phaser.Scene
         this.load.audio("hurt", "assets/player-hurt.wav");
         this.load.audio("backgroundMusic", "assets/backgroundmusic.mp3");
         this.load.audio("menuMusic", "assets/introMusic.mp3");
+        this.load.audio("sfx_collection", "assets/collectorEffect.mp3");
     }
 
     create()
