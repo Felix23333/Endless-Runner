@@ -17,13 +17,14 @@ class MainMenu extends Phaser.Scene
         //https://www.videvo.net/sound-effect/water-lapping-closeu-b-t053901/261257/
         //https://www.videvo.net/sound-effect/human-swallow-02/429168/
         this.load.audio("sfx_collection", "assets/collectorEffect.mp3");
+        this.load.image("menu", "assets/menu.png");
     }
 
     create()
     {
         console.log("Open Game!");
         this.input.keyboard.on('keydown-S', this.StartGame, this);
-        this.add.rectangle(0, 0, game.config.width, game.config.height, 0x0081FA).setOrigin(0);
+        this.add.sprite(0, 0, "menu").setOrigin(0);
 
         if(!addMenuMusic)
         {
