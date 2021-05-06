@@ -300,7 +300,7 @@ class Play extends Phaser.Scene
 
     addDiff()
     {
-        gameSpeed += 0.1;
+        gameSpeed += 0.25;
     }
 
     update()
