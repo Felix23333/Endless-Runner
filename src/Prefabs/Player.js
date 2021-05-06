@@ -69,14 +69,7 @@ class Player extends Phaser.GameObjects.Sprite
     {
         if(this.gravity)
         {
-            //teleport version
-            //while(this.y <= 360)
-            //{
-            //    this.y += this.changeSpeed;
-            //}
-            //this.y = 360;
-
-            //animation version
+            //animation version change gravity
             this.scene.time.addEvent({ delay: 10, callback: this.Gravity, 
                 callbackScope: this, repeat: 32 });
             this.scene.time.delayedCall(550, () => {
@@ -87,14 +80,8 @@ class Player extends Phaser.GameObjects.Sprite
         }
         else
         {
-            //teleport version
-            //while(this.y >= 120)
-            //{
-            //this.y -= this.changeSpeed;   
-            //}
-            //this.y = 120;
 
-            //animation version
+            //animation version change gravity
             this.scene.time.addEvent({ delay: 10, callback: this.Gravity, 
                 callbackScope: this, repeat: 32 });
             this.scene.time.delayedCall(550, () => {
