@@ -79,7 +79,7 @@ class Player extends Phaser.GameObjects.Sprite
             //animation version
             this.scene.time.addEvent({ delay: 10, callback: this.Gravity, 
                 callbackScope: this, repeat: 32 });
-            this.scene.time.delayedCall(330, () => {
+            this.scene.time.delayedCall(550, () => {
                     this.y = 365;
                     this.isChangingGravity = false;
                 }
@@ -97,7 +97,7 @@ class Player extends Phaser.GameObjects.Sprite
             //animation version
             this.scene.time.addEvent({ delay: 10, callback: this.Gravity, 
                 callbackScope: this, repeat: 32 });
-            this.scene.time.delayedCall(330, () => {
+            this.scene.time.delayedCall(550, () => {
                     this.y = 65;
                     this.isChangingGravity = false;
                 }
@@ -119,8 +119,8 @@ class Player extends Phaser.GameObjects.Sprite
             this.isDuck = false;
         if(Phaser.Input.Keyboard.JustDown(gravityKey) && !this.isChangingGravity && !this.isJump && !this.isDuck)
         {
-            this.isChangingGravity = true;
             this.gravity = !this.gravity;
+            this.isChangingGravity = true;
             this.ChangeGravity();
         }
         }

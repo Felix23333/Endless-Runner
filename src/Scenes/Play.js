@@ -171,6 +171,10 @@ class Play extends Phaser.Scene
                     player.anims.play('upsideWalk', true);
                     //player.setFrame(7);
                 }
+                else
+                {
+                    player.setFrame(7);
+                }
             }
         }
     }
@@ -333,7 +337,7 @@ class Play extends Phaser.Scene
                 this.box2.reset();
             }
             this.frameLoad(this.player);
-            this.background.tilePositionX += 2;
+            this.background.tilePositionX += 4;
 
             if(lives == 2){
                 this.explosion.x = -100;
